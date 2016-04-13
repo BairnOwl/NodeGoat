@@ -11,6 +11,19 @@ function generatePWIdentifier() {//generate a unique room identifier.
     return result;
 }
 
+function encryptSSN() {
+    var obj = generatePWIdentifier();
+    hash[userId] = obj;
+    var ciphertext = CryptoJS.AES.encrypt(ssn, obj);
+    return ciphertext;
+}
+
+function decryptSSN() {
+    var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+    var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    return decryptedData;
+}
+
 /* The ProfileDAO must be constructed with a connected database object */
 function ProfileDAO(db) {
 
@@ -51,10 +64,7 @@ function ProfileDAO(db) {
             user.bankRouting = bankRouting;
         }
         if (ssn) {
-            var obj = generatePWIdentifier();
-            hash[userId] = obj;
-            var ciphertext = CryptoJS.AES.encrypt(ssn, obj);
-            user.ssn = ssn; //<- what if your server gets hacked?
+            user.ssn = encryptSSN(); //<- what if your server gets hacked?
             //encrypt sensitive fields!
         }
         if (dob) {
@@ -88,6 +98,7 @@ function ProfileDAO(db) {
                 // sending it back to the user, so if you encrypted
                 // fields when you inserted them, you need to decrypt
                 // them before you can use them.
+                user.ssn = decryptSSN();
                 callback(null, user);
             }
         );
