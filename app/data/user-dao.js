@@ -23,13 +23,34 @@ function UserDAO(db) {
          ***********************************************/
 
         // Create user document
+        // var user = {
+        //     userName: userName,
+        //     firstName: firstName,
+        //     lastName: lastName,
+        //     benefitStartDate: this.getRandomFutureDate(),
+        //     password: password //received from request param
+        // };
+
+
+        // What we did: use hashing for the password
+
+        // Generate password hash
+        var salt = bcrypt.genSaltSync();
+        var passwordHash = bcrypt.hashSync(password, salt);
+
+        // Create user document
         var user = {
             userName: userName,
             firstName: firstName,
             lastName: lastName,
-            benefitStartDate: this.getRandomFutureDate(),
-            password: password //received from request param
+            password: passwordHash
         };
+
+        if (bcrypt.compareSync(password, user.password)) {
+            callback(null, user);
+        } else {
+            callback(invalidPasswordError, null);
+        }
 
         // Add email if set
         if (email !== "") {

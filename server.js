@@ -32,6 +32,13 @@ var config = require("./config/config"); // Application config properties
  ***********************************************/
 
 MongoClient.connect(config.db, function(err, db) {
+
+    // swig.init({
+    //     root: __dirname + "/app/views",
+    //     autoescape: true //default value
+    // });
+
+    
     if (err) {
         console.log("Error: DB: connect");
         console.log(err);
@@ -76,5 +83,21 @@ MongoClient.connect(config.db, function(err, db) {
     http.createServer(app).listen(config.port,  function() {
         console.log("Express http server listening on port " + config.port);
     });
+
+    
+
+    // Enable session management using express middleware
+    // app.use(express.session({
+    //     secret: "s3Cur3",
+    //     cookie: {
+    //         httpOnly: true,
+    //         secure: true
+    //     }
+    // }));
+
+    
+
+
+
 
 });

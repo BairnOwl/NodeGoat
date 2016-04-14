@@ -81,6 +81,22 @@ var exports = function(app, db) {
 
     // Error handling middleware
     app.use(ErrorHandler);
+
+    
+    // // Enable session management using express middleware
+    // app.use(express.cookieParser());
+
+    // app.use(express.session({
+    //     secret: "s3Cur3",
+    //     cookie: {
+    //         httpOnly: true,
+    //         secure: true
+    //     }
+    // }));
+
+    // req.session.destroy(function() {
+    //     res.redirect("/");
+    // });
 };
 
 module.exports = exports;
