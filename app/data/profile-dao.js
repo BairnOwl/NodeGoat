@@ -1,16 +1,3 @@
-var CryptoJS = require("crypto-js");
-var hash = {};
-
-function generatePWIdentifier() {//generate a unique room identifier.
-    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-
-    var result = '';
-    for (var i = 0; i < 6; i++)
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
-
-    return result;
-}
-
 /* The ProfileDAO must be constructed with a connected database object */
 function ProfileDAO(db) {
 
@@ -51,9 +38,6 @@ function ProfileDAO(db) {
             user.bankRouting = bankRouting;
         }
         if (ssn) {
-            var obj = generatePWIdentifier();
-            hash[userId] = obj;
-            var ciphertext = CryptoJS.AES.encrypt(ssn, obj);
             user.ssn = ssn; //<- what if your server gets hacked?
             //encrypt sensitive fields!
         }
