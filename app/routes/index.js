@@ -21,6 +21,9 @@ var exports = function(app, db) {
     // Middleware to check if a user is logged in
     var isLoggedIn = sessionHandler.isLoggedInMiddleware;
 
+    //Middleware to check if user has admin rights
+    var isAdmin = sessionHandler.isAdminUserMiddleware;
+
     // The main page of the app
     app.get("/", sessionHandler.displayWelcomePage);
 
@@ -59,8 +62,8 @@ var exports = function(app, db) {
      ** directly accessing the route?             **
      ***********************************************/
     // Benefits Page
-    app.get("/benefits", isLoggedIn, benefitsHandler.displayBenefits);
-    app.post("/benefits", isLoggedIn, benefitsHandler.updateBenefits);
+    app.get("/benefits", isLoggedIn, isAdmin, benefitsHandler.displayBenefits);
+    app.post("/benefits", isLoggedIn, isAdmin, benefitsHandler.updateBenefits);
 
     // Allocations Page
     app.get("/allocations/:userId", isLoggedIn, allocationsHandler.displayAllocations);

@@ -14,6 +14,7 @@ var config = require("./config/config"); // Application config properties
 var helmet = require('helmet');
 var csurf = require('csurf');
 
+var csrf = require('csurf');
 
 /*************** SECURITY ISSUES ***************
  ** There are several security issues with    **
@@ -88,5 +89,13 @@ MongoClient.connect(config.db, function(err, db) {
     http.createServer(app).listen(config.port,  function() {
         console.log("Express http server listening on port " + config.port);
     });
+
+    //Enable Express csrf protection
+    app.use(csrf);
+
+    app.use(function(req, res, next) { 
+        res.locals.csrftoken = req.csrfToken(); 
+        next(); 
+    }); 
 
 });

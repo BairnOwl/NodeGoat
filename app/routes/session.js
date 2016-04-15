@@ -219,8 +219,22 @@ function SessionHandler(db) {
 
             return res.render("dashboard", doc);
         });
-
     };
+
+    this.isAdminUserMiddleware = function(req, res, next) {
+        if (req.session.userId) {
+            userDAO.getUserById(req.session.userId, function(err, user) {
+                 if(user && user.isAdmin) {
+                     next();
+                 } else {
+                     return res.redirect("/login");
+                 }
+            });
+        } else {
+            console.log("redirecting to login");
+            return res.redirect("/login");
+        }
+    }
 }
 
 module.exports = SessionHandler;
