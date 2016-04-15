@@ -33,6 +33,13 @@ var csrf = require('csurf');
  ***********************************************/
 
 MongoClient.connect(config.db, function(err, db) {
+
+    swig.setDefaults({
+        root: __dirname + "/app/views",
+        autoescape: true //default value
+    });
+
+    
     if (err) {
         console.log("Error: DB: connect");
         console.log(err);
@@ -55,7 +62,12 @@ MongoClient.connect(config.db, function(err, db) {
     app.use(session({
         secret: config.cookieSecret,
         saveUninitialized: true,
-        resave: true
+        resave: false,
+        secret: "s3Cur3",
+        cookie: {
+            httpOnly: true
+            // secure: true
+        }
     }));
 
     // Register templating engine
@@ -78,6 +90,7 @@ MongoClient.connect(config.db, function(err, db) {
         console.log("Express http server listening on port " + config.port);
     });
 
+<<<<<<< HEAD
     //Enable Express csrf protection
     app.use(csrf);
 
@@ -86,4 +99,10 @@ MongoClient.connect(config.db, function(err, db) {
         next(); 
     }); 
 
+=======
+    // swig.init({
+    //     root: __dirname + "/app/views",
+    //     autoescape: true //default value
+    // });
+>>>>>>> security_lab_sophie
 });

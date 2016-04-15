@@ -22,9 +22,16 @@ function ContributionsHandler(db) {
          ** What is bad about using eval() to parse   **
          ** user input here?                          **
          ***********************************************/
-        var preTax = eval(req.body.preTax);
-        var afterTax = eval(req.body.afterTax);
-        var roth = eval(req.body.roth);
+
+        // What I did: add "use strict" and change eval into parseInt()
+        "use strict"
+        // Insecure use of eval() to parse inputs
+        // var preTax = eval(req.body.preTax);
+        // var afterTax = eval(req.body.afterTax);
+        // var roth = eval(req.body.roth);
+        var preTax = parseInt(req.body.preTax);
+        var afterTax = parseInt(req.body.afterTax);
+        var roth = parseInt(req.body.roth);
 
         var userId = req.session.userId;
 
