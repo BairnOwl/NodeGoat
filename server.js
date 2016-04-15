@@ -11,6 +11,7 @@ var http = require("http");
 var app = express(); // Web framework to handle routing requests
 var routes = require("./app/routes");
 var config = require("./config/config"); // Application config properties
+var helmet = require('helmet');
 
 
 /*************** SECURITY ISSUES ***************
@@ -42,6 +43,13 @@ MongoClient.connect(config.db, function(err, db) {
 
     // Adding/ remove HTTP Headers for security
     app.use(favicon(__dirname + "/app/assets/favicon.ico"));
+    app.disable("x-powered-by");
+    app.use(helmet.xframe()); 
+    //app.use(helmet.cacheControl());
+    app.use(helmet.csp());
+    app.use(helmet.hsts()); 
+    //app.use(helmet.iexss());
+    //app.use(helmet.contentTypeOptions()); 
 
     // Express middleware to populate "req.body" so we can access POST variables
     app.use(bodyParser.json());
@@ -51,11 +59,14 @@ MongoClient.connect(config.db, function(err, db) {
     }));
 
     // Enable session management using express middleware
-    app.use(session({
-        secret: config.cookieSecret,
-        saveUninitialized: true,
-        resave: true
-    }));
+    app.use(express.session({
+            secret: config.cookieSecret,
+            key: "sessionId",
+            cookie: {
+                httpOnly: true,
+                secure: true
+            }
+        }));
 
     // Register templating engine
     app.engine(".html", consolidate.swig);
