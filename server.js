@@ -12,6 +12,7 @@ var app = express(); // Web framework to handle routing requests
 var routes = require("./app/routes");
 var config = require("./config/config"); // Application config properties
 var helmet = require('helmet');
+var csurf = require('csurf');
 
 
 /*************** SECURITY ISSUES ***************
