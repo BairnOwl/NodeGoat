@@ -11,8 +11,24 @@ var http = require("http");
 var app = express(); // Web framework to handle routing requests
 var routes = require("./app/routes");
 var config = require("./config/config"); // Application config properties
+var helmet = require('helmet');
 
 var csrf = require('csurf');
+var session = require('express-session');
+
+// //Load keys for establishing secure HTTPS connection
+// var fs = require("fs");
+// var https = require("https");
+// var path = require("path");
+// var httpsOptions = {
+//     key: fs.readFileSync(path.resolve(__dirname, "./app/cert/key.pem")),
+//     cert: fs.readFileSync(path.resolve(__dirname, "./app/cert/cert.pem"))
+// };
+
+// // Start secure HTTPS server
+// https.createServer(httpsOptions, app).listen(config.port, function() {
+//     console.log("Express https server listening on port " + config.port);
+// });
 
 /*************** SECURITY ISSUES ***************
  ** There are several security issues with    **
@@ -50,6 +66,14 @@ MongoClient.connect(config.db, function(err, db) {
 
     // Adding/ remove HTTP Headers for security
     app.use(favicon(__dirname + "/app/assets/favicon.ico"));
+    app.disable("x-powered-by");
+    app.use(helmet());
+    // app.use(helmet.xframe()); 
+    // //app.use(helmet.cacheControl());
+    // app.use(helmet.csp());
+    // app.use(helmet.hsts()); 
+    //app.use(helmet.iexss());
+    //app.use(helmet.contentTypeOptions()); 
 
     // Express middleware to populate "req.body" so we can access POST variables
     app.use(bodyParser.json());
@@ -69,6 +93,15 @@ MongoClient.connect(config.db, function(err, db) {
             // secure: true
         }
     }));
+
+    app.use(session({
+            secret: config.cookieSecret,
+            key: "sessionId",
+            cookie: {
+                httpOnly: true,
+                secure: true
+            }
+        }));
 
     // Register templating engine
     app.engine(".html", consolidate.swig);
