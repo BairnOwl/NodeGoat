@@ -123,7 +123,6 @@ MongoClient.connect(config.db, function(err, db) {
         console.log("Express http server listening on port " + config.port);
     });
 
-<<<<<<< HEAD
     //Enable Express csrf protection
     app.use(csrf);
 
@@ -132,10 +131,4 @@ MongoClient.connect(config.db, function(err, db) {
         next(); 
     }); 
 
-=======
-    // swig.init({
-    //     root: __dirname + "/app/views",
-    //     autoescape: true //default value
-    // });
->>>>>>> security_lab_sophie
 });
