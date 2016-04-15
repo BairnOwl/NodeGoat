@@ -84,16 +84,19 @@ MongoClient.connect(config.db, function(err, db) {
         console.log("Express http server listening on port " + config.port);
     });
 
-    
+    swig.init({
+        root: __dirname + "/app/views",
+        autoescape: true //default value
+    });
 
-    // Enable session management using express middleware
-    // app.use(express.session({
-    //     secret: "s3Cur3",
-    //     cookie: {
-    //         httpOnly: true,
-    //         secure: true
-    //     }
-    // }));
+    Enable session management using express middleware
+    app.use(express.session({
+        secret: "s3Cur3",
+        cookie: {
+            httpOnly: true,
+            secure: true
+        }
+    }));
 
     
 
