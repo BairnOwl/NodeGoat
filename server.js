@@ -33,10 +33,10 @@ var config = require("./config/config"); // Application config properties
 
 MongoClient.connect(config.db, function(err, db) {
 
-    // swig.init({
-    //     root: __dirname + "/app/views",
-    //     autoescape: true //default value
-    // });
+    swig.setDefaults({
+        root: __dirname + "/app/views",
+        autoescape: true //default value
+    });
 
     
     if (err) {
@@ -61,7 +61,12 @@ MongoClient.connect(config.db, function(err, db) {
     app.use(session({
         secret: config.cookieSecret,
         saveUninitialized: true,
-        resave: true
+        resave: false,
+        secret: "s3Cur3",
+        cookie: {
+            httpOnly: true
+            // secure: true
+        }
     }));
 
     // Register templating engine
@@ -84,23 +89,8 @@ MongoClient.connect(config.db, function(err, db) {
         console.log("Express http server listening on port " + config.port);
     });
 
-    swig.init({
-        root: __dirname + "/app/views",
-        autoescape: true //default value
-    });
-
-    Enable session management using express middleware
-    app.use(express.session({
-        secret: "s3Cur3",
-        cookie: {
-            httpOnly: true,
-            secure: true
-        }
-    }));
-
-    
-
-
-
-
+    // swig.init({
+    //     root: __dirname + "/app/views",
+    //     autoescape: true //default value
+    // });
 });
