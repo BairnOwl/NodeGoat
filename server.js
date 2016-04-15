@@ -68,12 +68,6 @@ MongoClient.connect(config.db, function(err, db) {
     app.use(favicon(__dirname + "/app/assets/favicon.ico"));
     app.disable("x-powered-by");
     app.use(helmet());
-    // app.use(helmet.xframe()); 
-    // //app.use(helmet.cacheControl());
-    // app.use(helmet.csp());
-    // app.use(helmet.hsts()); 
-    //app.use(helmet.iexss());
-    //app.use(helmet.contentTypeOptions()); 
 
     // Express middleware to populate "req.body" so we can access POST variables
     app.use(bodyParser.json());
