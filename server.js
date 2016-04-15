@@ -91,6 +91,8 @@ MongoClient.connect(config.db, function(err, db) {
             }
         }));
 
+    alert("ohhh");
+
     // Register templating engine
     app.engine(".html", consolidate.swig);
     app.set("view engine", "html");
