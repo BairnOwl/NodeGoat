@@ -2,6 +2,55 @@
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
 
-Q1. How to check if CSRF works?
-Q2. How to check if No. 5 works?
-Q6. A6 not working with the part of code in server.js
+A1:
+
+
+
+
+A2:
+
+
+
+
+A3:
+
+
+
+
+A4:
+
+
+
+
+A5:
+
+
+
+
+
+
+A6:
+
+
+
+
+A7:
+
+
+
+
+
+A8:
+
+
+
+
+
+A9:
+
+
+
+
+
+
+
